@@ -14,7 +14,7 @@ export default async function handler(req, res) {
       method:'POST', headers:{'content-type':'application/json'}, body:JSON.stringify({chat_id:chatId,text})
     });
     const data = await tg.json();
-    if (!data.ok) return res.status(502).json({ok:false,error:'Telegram не принял заказ.'});
+    if (!data.ok) return res.status(502).json({ok:false,error:'Telegram: ' + (data.description || 'Неизвестная ошибка')});
     return res.status(200).json({ok:true});
   } catch (e) { return res.status(500).json({ok:false,error:'Ошибка сервера.'}); }
 }
