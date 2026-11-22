@@ -241,7 +241,7 @@ a{color:#795b4b}
 
 </div>
 
-<div class="product-modal" id="productModal" onclick="if(event.target===this) closeProduct()">
+<div class="products" id="products"></div> <div class="product-modal" id="productModal" onclick="if(event.target===this) closeProduct()">
 
   <div class="modal-content">
 
@@ -383,10 +383,8 @@ const container=document.getElementById('products');
 
 container.innerHTML=list.map(p=>`
 
-<div class="product" onclick="openProduct(${p.id})">
-
 <div class="picture">
-  ${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : p.emoji}
+  ${p.photo ? '<img src="' + p.photo + '" alt="' + p.name + '">' : p.emoji}
 </div>
 
 <div class="age">Возраст: от ${p.age} лет</div>
