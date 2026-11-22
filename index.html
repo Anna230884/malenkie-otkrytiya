@@ -132,7 +132,66 @@ a{color:#795b4b}
 
 .catalog-button:hover {
   background: #c7836b;
-}</style>
+}. .product-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(50, 35, 25, 0.65);
+  z-index: 1000;
+  padding: 20px;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+}
+
+.modal-content {
+  background: #fffaf5;
+  width: 100%;
+  max-width: 480px;
+  padding: 22px;
+  border-radius: 22px;
+  position: relative;
+  text-align: center;
+  margin: auto;
+}
+
+.modal-content img {
+  width: 100%;
+  max-height: 350px;
+  object-fit: contain;
+  border-radius: 15px;
+  background: #f8eee6;
+}
+
+.close-modal {
+  position: absolute;
+  right: 12px;
+  top: 12px;
+  border: 0;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  background: #ead7c8;
+  color: #604b3e;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#modalDescription {
+  line-height: 1.6;
+  color: #786d65;
+}
+
+#modalPrice {
+  font-size: 22px;
+  font-weight: bold;
+  color: #795b4b;
+  margin: 15px;
+}
+
+#modalAge {
+  color: #9b806b;
+} </style>
 
 </head>
 
@@ -182,7 +241,27 @@ a{color:#795b4b}
 
 </div>
 
-<div class="products" id="products"></div>
+<div class="product-modal" id="productModal" onclick="if(event.target===this) closeProduct()">
+
+  <div class="modal-content">
+
+    <button class="close-modal" onclick="closeProduct()">✕</button>
+
+    <div id="modalPhoto"></div>
+
+    <h2 id="modalName"></h2>
+
+    <p id="modalAge"></p>
+
+    <p id="modalDescription"></p>
+
+    <div id="modalPrice"></div>
+
+    <button id="modalAddButton" class="order-button">Добавить в корзину</button>
+
+  </div>
+
+</div>  
 
 <section class="cart" id="cart">
 
@@ -270,7 +349,33 @@ const products = [
   }
 ];
 
-let cart = [];
+function openProduct(id) {
+  const product = products.find(p => p.id === id);
+
+  if (!product) return;
+
+  document.getElementById('modalName').textContent = product.name;
+  document.getElementById('modalAge').textContent = '🧸 Возраст: от ' + product.age + ' лет';
+  document.getElementById('modalDescription').textContent = product.description;
+  document.getElementById('modalPrice').textContent = product.price + ' руб.';
+
+  const photo = document.getElementById('modalPhoto');
+
+  photo.innerHTML = product.photo
+    ? `<img src="${product.photo}" alt="${product.name}">`
+    : `<div style="font-size:100px;padding:30px">${product.emoji}</div>`;
+
+  document.getElementById('modalAddButton').onclick = function() {
+    addToCart(id);
+    closeProduct();
+  };
+
+  document.getElementById('productModal').style.display = 'flex';
+}
+
+function closeProduct() {
+  document.getElementById('productModal').style.display = 'none';
+}
 
 function showProducts(list=products){
 
@@ -278,7 +383,7 @@ const container=document.getElementById('products');
 
 container.innerHTML=list.map(p=>`
 
-<div class="product">
+<div class="product" onclick="openProduct(${p.id})">
 
 <div class="picture">
   ${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : p.emoji}
@@ -292,7 +397,7 @@ container.innerHTML=list.map(p=>`
 
 <div class="price">${p.price} руб.</div>
 
-<button onclick="addToCart(${p.id})">Добавить в корзину</button>
+<button onclick="event.stopPropagation(); addToCart(${p.id})">Добавить в корзину</button>
 
 </div>`).join('');
 
