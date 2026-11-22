@@ -40,7 +40,23 @@ h2{text-align:center;font-family:Georgia,serif;color:#795b4b}
 
 .product{background:white;border-radius:17px;padding:16px;box-shadow:0 3px 14px #0000000b}
 
-.picture{height:145px;background:#f8eee6;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:65px}
+.picture{
+  height:145px;
+  background:#f8eee6;
+  border-radius:13px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:65px;
+  overflow:hidden;
+}
+
+.picture img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
 
 .product h3{margin:13px 0 7px;color:#715744}
 
@@ -211,15 +227,47 @@ a{color:#795b4b}
 <script>
 
 const products = [
-
-{id:1,name:'Игра «Изучаем цвета»',price:60,age:2,description:'Учимся различать и находить цвета.',emoji:'🎨'},
-
-{id:2,name:'Игра «Формы и фигуры»',price:60,age:3,description:'Знакомимся с геометрическими фигурами.',emoji:'🔷'},
-
-{id:3,name:'Игра «Мир животных»',price:70,age:3,description:'Изучаем животных и их особенности.',emoji:'🐻'},
-
-{id:4,name:'Игра «Мир транспорта»',price:80,age:5,description:'Знакомимся с разными видами транспорта.',emoji:'🚗'}
-
+  {
+    id: 1,
+    name: 'Игра «Найди тень»',
+    price: 60,
+    age: 2,
+    description: 'Развиваем внимание, мышление и учимся находить соответствующие тени.',
+    emoji: '🌳',
+    photo: 'https://i.ibb.co/7t5LHG0k/IMG-1485.jpg'
+  },
+  {
+    id: 2,
+    name: 'Игра «Изучаем цвета»',
+    price: 60,
+    age: 2,
+    description: 'Учимся различать и находить цвета.',
+    emoji: '🎨'
+  },
+  {
+    id: 3,
+    name: 'Игра «Формы и фигуры»',
+    price: 60,
+    age: 3,
+    description: 'Знакомимся с геометрическими фигурами.',
+    emoji: '🔷'
+  },
+  {
+    id: 4,
+    name: 'Игра «Мир животных»',
+    price: 70,
+    age: 3,
+    description: 'Изучаем животных и их особенности.',
+    emoji: '🐻'
+  },
+  {
+    id: 5,
+    name: 'Игра «Мир транспорта»',
+    price: 80,
+    age: 5,
+    description: 'Знакомимся с разными видами транспорта.',
+    emoji: '🚗'
+  }
 ];
 
 let cart = [];
@@ -232,7 +280,9 @@ container.innerHTML=list.map(p=>`
 
 <div class="product">
 
-<div class="picture">${p.emoji}</div>
+<div class="picture">
+  ${p.photo ? `<img src="${p.photo}" alt="${p.name}">` : p.emoji}
+</div>
 
 <div class="age">Возраст: от ${p.age} лет</div>
 
